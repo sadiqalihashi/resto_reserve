@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}New Reservation{% endblock %}
+{% block content %}
+<h2 class="mb-4">New Reservation</h2>
+<form method="POST" action="{{ url_for('add_reservation') }}" class="col-md-6">
+    <div class="mb-3">
+        <label class="form-label">Customer Name</label>
+        <input type="text" name="customer_name" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Phone Number</label>
+        <input type="text" name="phone_number" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Party Size</label>
+        <input type="number" name="party_size" id="party_size" class="form-control" min="1" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Table</label>
+        <select name="table_id" class="form-select" required>
+            {% for t in tables %}
+            <option value="{{ t[0] }}">Table {{ t[1] }} (seats {{ t[2] }})</option>
+            {% else %}
+            <option disabled>No tables available for this party size yet</option>
+            {% endfor %}
+        </select>
+        <small class="text-muted">Tip: enter a party size above, then reload this page to filter by size.</small>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Reservation Time</label>
+        <input type="datetime-local" name="reservation_time" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-dark">Book Table</button>
+</form>
+{% endblock %}

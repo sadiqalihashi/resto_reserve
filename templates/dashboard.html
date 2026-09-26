@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2 class="mb-4">Dashboard</h2>
+
+<h4>Tables</h4>
+<div class="row mb-4">
+    {% for table in tables %}
+    <div class="col-md-2 mb-3">
+        <div class="card text-center {% if table[3] == 'available' %}border-success{% elif table[3] == 'reserved' %}border-warning{% else %}border-danger{% endif %}">
+            <div class="card-body">
+                <h5 class="card-title">Table {{ table[1] }}</h5>
+                <p class="card-text">Seats {{ table[2] }}</p>
+                <span class="badge {% if table[3] == 'available' %}bg-success{% elif table[3] == 'reserved' %}bg-warning{% else %}bg-danger{% endif %}">{{ table[3] }}</span>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p>No tables set up yet.{% if session.get('role') == 'admin' %} <a href="{{ url_for('tables') }}">Add some</a>.{% endif %}</p>
+    {% endfor %}
+</div>
+
+<h4>Reservations</h4>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Phone</th>
+            <th>Party Size</th>
+            <th>Table</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in reservations %}
+        <tr>
+            <td>{{ r[1] }}</td>
+            <td>{{ r[2] }}</td>
+            <td>{{ r[3] }}</td>
+            <td>{{ r[7] }}</td>
+            <td>{{ r[4] }}</td>
+            <td>{{ r[5] }}</td>
+            <td>
+                {% if r[5] == 'confirmed' %}
+                <a href="{{ url_for('cancel', reservation_id=r[0], table_id=r[6]) }}" class="btn btn-sm btn-outline-danger">Cancel</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-center">No reservations yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

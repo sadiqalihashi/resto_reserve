@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Manage Tables{% endblock %}
+{% block content %}
+<h2 class="mb-4">Manage Tables</h2>
+
+<form method="POST" action="{{ url_for('add_table') }}" class="row g-2 mb-4">
+    <div class="col-auto">
+        <input type="text" name="table_number" class="form-control" placeholder="Table number" required>
+    </div>
+    <div class="col-auto">
+        <input type="number" name="capacity" class="form-control" placeholder="Seats" min="1" required>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-dark">Add Table</button>
+    </div>
+</form>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Table Number</th>
+            <th>Capacity</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in tables %}
+        <tr>
+            <td>{{ t[1] }}</td>
+            <td>{{ t[2] }}</td>
+            <td>{{ t[3] }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="3" class="text-center">No tables yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
